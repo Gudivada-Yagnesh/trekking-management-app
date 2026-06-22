@@ -27,7 +27,7 @@ with app.app_context():
     db.create_all()
 
     # Admin user already undho ledho check chesthunam
-    '''admin = User.query.filter_by(
+    admin = User.query.filter_by(
         email="admin@gmail.com"
     ).first()
 
@@ -50,7 +50,7 @@ with app.app_context():
 
     else:
 
-        print("Admin user already exists.")'''
+        print("Admin user already exists.")
 
 
 @app.route("/register", methods=["GET", "POST"])
