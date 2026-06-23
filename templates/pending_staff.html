@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Pending Staff Requests</title>
+
+</head>
+
+<body>
+
+    <h1>Pending Staff Requests</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <table border="1">
+
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        {% for staff in pending_staff_list %}
+
+        <tr>
+
+            <td>{{ staff.id }}</td>
+
+            <td>{{ staff.name }}</td>
+
+            <td>{{ staff.email }}</td>
+
+            <td>{{ staff.status }}</td>
+
+            <td>
+
+                <a href="/admin/approve-staff/{{ staff.id }}">
+
+                    Approve
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <a href="/admin/dashboard">
+
+        Back to Dashboard
+
+    </a>
+
+</body>
+
+</html>

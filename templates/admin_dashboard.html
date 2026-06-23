@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <h1>Admin Dashboard</h1>
+    <hr>
+    <form action="/admin/search">
+        <input
+            type="text"
+            name="keyword"
+            placeholder="Search..."
+        >
+        <button type="submit">
+            Search
+        </button>
+    </form>
+
+    <h3>Total Treks: {{ total_treks }}</h3>
+    <h3>Total Users: {{ total_users }}</h3>
+    <h3>Total Staff: {{ total_staff }}</h3>
+    <h3>Total Bookings: {{ total_bookings }}</h3>
+    <br>
+
+    <br><br>
+    <a href="/admin/users">
+        View Users
+    </a>
+
+    <br><br>
+    <a href="/admin/staff">
+        View Staff
+    </a>
+
+    <br><br>
+    <a href="/admin/bookings">
+        View Bookings
+    </a>
+
+    <br><br>
+    <a href="/admin/treks">
+        Manage Treks
+    </a>
+
+    <br><br>
+    <a href="/admin/pending-staff">
+        Pending Staff Requests
+    </a>
+
+    <br><br>
+    <a href="/logout">
+        Logout
+    </a>
+
+</body>
+</html>

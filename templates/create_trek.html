@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create Trek</title>
+</head>
+
+<body>
+
+    <h1>Create Trek</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+
+        Trek Name:
+        <input
+            type="text"
+            name="trek_name"
+            required
+        >
+
+        <br><br>
+
+        Location:
+        <input
+            type="text"
+            name="location"
+            required
+        >
+
+        <br><br>
+
+        Difficulty:
+        <select name="difficulty">
+
+            <option value="Easy">Easy</option>
+
+            <option value="Moderate">Moderate</option>
+
+            <option value="Hard">Hard</option>
+
+        </select>
+
+        <br><br>
+
+        Duration (Days):
+        <input
+            type="number"
+            name="duration_days"
+            min="1"
+            required
+        >
+
+        <br><br>
+
+        Available Slots:
+        <input
+            type="number"
+            name="available_slots"
+            min="1"
+            required
+        >
+
+        <br><br>
+
+        Start Date:
+        <input
+            type="date"
+            name="start_date"
+            required
+        >
+
+        <br><br>
+
+        End Date:
+        <input
+            type="date"
+            name="end_date"
+            required
+        >
+
+        <br><br>
+
+        Status:
+        <select name="status">
+
+            <option value="Open">Open</option>
+
+            <option value="Closed">Closed</option>
+
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+
+            Create Trek
+
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/admin/treks">
+
+        Back to Treks
+
+    </a>
+
+</body>
+
+</html>

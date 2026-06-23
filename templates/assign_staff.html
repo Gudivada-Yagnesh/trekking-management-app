@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assign Staff</title>
+</head>
+<body>
+
+    <h1>Assign Staff to {{ trek.trek_name }}</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Select Staff:</label>
+        <select name="staff_id">
+            {% for staff in active_staff %}
+                <option value="{{ staff.id }}">
+                    {{ staff.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+            Assign Staff
+        </button>
+    </form>
+
+</body>
+</html>

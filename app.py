@@ -13,12 +13,18 @@ from models.staff_profile import StaffProfile
 from models.trek import Trek
 from models.booking import Booking
 from werkzeug.security import generate_password_hash
+from datetime import datetime
+from admin import admin_bp
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app) #sqlalchemy
 
+app.register_blueprint(
+    admin_bp,
+    url_prefix="/admin"
+)
 
 # Application context create chesthunam
 with app.app_context():
@@ -117,6 +123,10 @@ def login():
         if user.role == "STAFF" and user.status == "PENDING_APPROVAL":
             flash("Your account is waiting for admin approval.")
             return redirect("/login")
+        
+        if user.status == "BLACKLISTED":
+            flash("Your account has been blacklisted.")
+            return redirect("/login")
 
         session["user_id"] = user.id
         session["name"] = user.name
@@ -133,30 +143,12 @@ def login():
 
     return render_template("login.html")
 
-# User logout ayithe session clear chestham
 @app.route("/logout")
 def logout():
 
     session.clear()
     flash("You have been logged out successfully.")
     return redirect("/login")
-
-
-@app.route("/admin/dashboard")
-def admin_dashboard():
-
-    if "user_id" not in session:
-        flash("Please login first.")
-
-        return redirect("/login")
-
-    if session.get("role") != "ADMIN":
-        flash("Access denied.")
-
-        return redirect("/login")
-
-    return "Admin Dashboard"
-
 
 @app.route("/staff/dashboard")
 def staff_dashboard():
@@ -171,8 +163,7 @@ def staff_dashboard():
 
         return redirect("/login")
 
-    return "Staff Dashboard"
-
+    return render_template("staff_dashboard.html")
 
 @app.route("/trekker/dashboard")
 def trekker_dashboard():
@@ -187,7 +178,8 @@ def trekker_dashboard():
 
         return redirect("/login")
 
-    return "Trekker Dashboard"
+    return render_template("trekker_dashboard.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

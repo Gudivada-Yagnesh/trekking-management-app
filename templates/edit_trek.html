@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Trek</title>
+</head>
+<body>
+    <h1>Edit Trek</h1>
+    <form method="POST">
+        Trek Name:
+        <input
+            type="text"
+            name="trek_name"
+            value="{{ trek.trek_name }}"
+            required
+        >
+        <br><br>
+        Location:
+        <input
+            type="text"
+            name="location"
+            value="{{ trek.location }}"
+            required
+        >
+        <br><br>
+        Difficulty:
+        <select name="difficulty">
+            <option value="Easy"
+                {% if trek.difficulty == "Easy" %}selected{% endif %}>
+                Easy
+            </option>
+            <option value="Moderate"
+                {% if trek.difficulty == "Moderate" %}selected{% endif %}>
+                Moderate
+            </option>
+            <option value="Hard"
+                {% if trek.difficulty == "Hard" %}selected{% endif %}>
+                Hard
+            </option>
+        </select>
+        <br><br>
+        Duration:
+        <input
+            type="number"
+            name="duration_days"
+            value="{{ trek.duration_days }}"
+            required
+        >
+        <br><br>
+        Available Slots:
+        <input
+            type="number"
+            name="available_slots"
+            value="{{ trek.available_slots }}"
+            required
+        >
+        <br><br>
+        Start Date:
+        <input
+            type="date"
+            name="start_date"
+            value="{{ trek.start_date }}"
+            required
+        >
+        <br><br>
+        End Date:
+        <input
+            type="date"
+            name="end_date"
+            value="{{ trek.end_date }}"
+            required
+        >
+        <br><br>
+        Status:
+        <select name="status">
+            <option value="Open"
+                {% if trek.status == "Open" %}selected{% endif %}>
+                Open
+            </option>
+            <option value="Closed"
+                {% if trek.status == "Closed" %}selected{% endif %}>
+                Closed
+            </option>
+        </select>
+        <br><br>
+        <button type="submit">
+            Update Trek
+        </button>
+    </form>
+
+</body>
+</html>

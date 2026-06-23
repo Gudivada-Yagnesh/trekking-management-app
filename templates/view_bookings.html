@@ -1,0 +1,22 @@
+<h1>All Bookings</h1>
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Trek ID</th>
+        <th>Status</th>
+        <th>Booking Date</th>
+    </tr>
+    {% for booking in bookings %}
+    <tr>
+        <td>{{ booking.id }}</td>
+        <td>{{ booking.user_id }}</td>
+        <td>{{ booking.trek_id }}</td>
+        <td>{{ booking.status }}</td>
+        <td>{{ booking.booking_date }}</td>
+    </tr>
+    {% endfor %}
+
+</table>

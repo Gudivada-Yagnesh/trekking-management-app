@@ -17,6 +17,11 @@ class User(db.Model):
         backref="user",
         lazy=True
     )
+    assigned_treks = db.relationship(
+        "Trek",
+        backref="assigned_staff",
+        foreign_keys="Trek.assigned_staff_id"
+    )
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
