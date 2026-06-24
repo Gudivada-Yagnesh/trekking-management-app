@@ -69,6 +69,10 @@ with app.app_context():
 
         print("Admin user already exists.")
 
+@app.route("/")
+def home():
+
+    return redirect("/login")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

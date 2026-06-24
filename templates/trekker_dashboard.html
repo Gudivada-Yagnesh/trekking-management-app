@@ -56,6 +56,7 @@
             <th>Booking Status</th>
             <th>Trek Status</th>
             <th>Booking Date</th>
+            <th>Action</th>
         </tr>
         {% for booking in my_bookings %}
         <tr>
@@ -64,6 +65,12 @@
             <td>{{ booking.status }}</td>
             <td>{{ booking.trek.status }}</td>
             <td>{{ booking.booking_date }}</td>
+            <td>{% if booking.status == "BOOKED" %}
+                <a href="/trekker/cancel-booking/{{ booking.id }}">
+                    Cancel
+                </a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </table>

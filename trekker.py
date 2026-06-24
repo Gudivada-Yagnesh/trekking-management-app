@@ -129,7 +129,7 @@ def book_trek(trek_id):
         user_id=session["user_id"],
         trek_id=trek.id,
         booking_date=date.today(),
-        status="CONFIRMED",
+        status="BOOKED",
         payment_status="PENDING"
     )
 
@@ -194,4 +194,34 @@ def profile():
     return render_template(
         "profile.html",
         user=user
+    )
+
+@trekker_bp.route("/cancel-booking/<int:booking_id>")
+def cancel_booking(booking_id):
+
+    if "user_id" not in session:
+        flash("Please login first.")
+
+        return redirect("/login")
+
+    booking = Booking.query.get_or_404(
+        booking_id
+    )
+
+    if booking.user_id != session["user_id"]:
+        flash("Access denied.")
+
+        return redirect(
+            url_for("trekker.trekker_dashboard")
+        )
+
+    if booking.status == "BOOKED":
+        booking.status = "CANCELLED"
+        booking.trek.available_slots += 1
+        db.session.commit()
+
+        flash("Booking cancelled.")
+
+    return redirect(
+        url_for("trekker.trekker_dashboard")
     )
