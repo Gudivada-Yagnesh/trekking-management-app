@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Dashboard</title>
+</head>
+<body>
+    <h1>Staff Dashboard</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Trek</th>
+            <th>Location</th>
+            <th>Available Slots</th>
+            <th>Status</th>
+            <th>Registered Users</th>
+            <th>Actions</th>
+        </tr>
+        {% for trek in assigned_treks %}
+        <tr>
+            <td>{{ trek.id }}</td>
+            <td>{{ trek.trek_name }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ trek.available_slots }}</td>
+            <td>{{ trek.status }}</td>
+            <td>
+                {{ trek_counts[trek.id] }}
+            </td>
+            <td>
+                <a href="/staff/update-trek/{{ trek.id }}">
+                    Update
+                </a>
+                |
+                <a href="/staff/participants/{{ trek.id }}">
+                    Participants
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

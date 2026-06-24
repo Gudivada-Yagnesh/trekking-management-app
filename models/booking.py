@@ -12,7 +12,15 @@ class Booking(db.Model):
         db.Integer,
         primary_key=True
     )
+    user = db.relationship(
+        "User",
+        backref="bookings"
+    )
 
+    trek = db.relationship(
+        "Trek",
+        backref="bookings"
+    )
     # User reference
     user_id = db.Column(
         db.Integer,
