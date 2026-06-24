@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trekker Dashboard</title>
+</head>
+<body>
+    <h1>Trekker Dashboard</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h2>Available Treks</h2>
+    <a href="/trekker/search">
+        Search Treks
+    </a>
+    <br><br>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Trek Name</th>
+            <th>Location</th>
+            <th>Difficulty</th>
+            <th>Available Slots</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for trek in available_treks %}
+        <tr>
+            <td>{{ trek.id }}</td>
+            <td>{{ trek.trek_name }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ trek.difficulty }}</td>
+            <td>{{ trek.available_slots }}</td>
+            <td>{{ trek.status }}</td>
+            <td>
+                {% if trek.id in booked_trek_ids %}
+                    Already Booked
+                {% else %}
+                    <a href="/trekker/book-trek/{{ trek.id }}">
+                        Book Trek
+                    </a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br><br>
+    <h2>My Bookings</h2>
+    <table border="1">
+        <tr>
+            <th>Booking ID</th>
+            <th>Trek Name</th>
+            <th>Booking Status</th>
+            <th>Trek Status</th>
+            <th>Booking Date</th>
+        </tr>
+        {% for booking in my_bookings %}
+        <tr>
+            <td>{{ booking.id }}</td>
+            <td>{{ booking.trek.trek_name }}</td>
+            <td>{{ booking.status }}</td>
+            <td>{{ booking.trek.status }}</td>
+            <td>{{ booking.booking_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br><br>
+    <a href="/trekker/history">
+        View Trekking History
+    </a>
+    <br><br>
+    <a href="/trekker/profile">
+        Update Profile
+    </a>
+    <br><br>
+    <a href="/logout">
+        Logout
+    </a>
+</body>
+</html>

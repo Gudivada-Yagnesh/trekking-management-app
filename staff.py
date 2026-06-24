@@ -106,3 +106,41 @@ def update_trek(trek_id):
         "update_trek.html",
         trek=trek
     )
+
+@staff_bp.route("/participants/<int:trek_id>")
+def view_participants(trek_id):
+
+    if "user_id" not in session:
+
+        flash("Please login first.")
+
+        return redirect("/login")
+
+    if session.get("role") != "STAFF":
+
+        flash("Access denied.")
+
+        return redirect("/login")
+
+    trek = Trek.query.get_or_404(trek_id)
+
+    # Ee trek ee staff ki assign ayyindha check chestham
+    if trek.assigned_staff_id != session["user_id"]:
+
+        flash(
+            "You can only view participants of your assigned treks."
+        )
+
+        return redirect(
+            url_for("staff.staff_dashboard")
+        )
+
+    participants = Booking.query.filter_by(
+        trek_id=trek.id
+    ).all()
+
+    return render_template(
+        "assigned_trek_users.html",
+        trek=trek,
+        participants=participants
+    )

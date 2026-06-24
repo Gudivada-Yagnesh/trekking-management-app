@@ -16,7 +16,7 @@ from werkzeug.security import generate_password_hash
 from datetime import datetime
 from admin import admin_bp
 from staff import staff_bp
-
+from trekker import trekker_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -30,6 +30,11 @@ app.register_blueprint(
 app.register_blueprint(
     staff_bp,
     url_prefix="/staff"
+)
+
+app.register_blueprint(
+    trekker_bp,
+    url_prefix="/trekker"
 )
 
 # Application context create chesthunam
