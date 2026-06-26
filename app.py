@@ -17,6 +17,11 @@ from datetime import datetime
 from admin import admin_bp
 from staff import staff_bp
 from trekker import trekker_bp
+from background_jobs.consumer import BackgroundConsumer
+from background_jobs.scheduler import start_scheduler
+from api.trek_api import trek_api
+from api.booking_api import booking_api
+from api.auth_api import auth_api
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -36,6 +41,10 @@ app.register_blueprint(
     trekker_bp,
     url_prefix="/trekker"
 )
+
+app.register_blueprint(trek_api)
+app.register_blueprint(booking_api)
+app.register_blueprint(auth_api)
 
 # Application context create chesthunam
 with app.app_context():
@@ -68,6 +77,9 @@ with app.app_context():
     else:
 
         print("Admin user already exists.")
+
+BackgroundConsumer.start_consumer()
+start_scheduler()
 
 @app.route("/")
 def home():

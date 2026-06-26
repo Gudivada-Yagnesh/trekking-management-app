@@ -14,6 +14,8 @@ from models import db
 from models.user import User
 from models.trek import Trek
 from models.booking import Booking
+from background_jobs.producer import BookingProducer
+from services.booking_processor import SafeBookingProcessor
 
 trekker_bp = Blueprint(
     "trekker",
@@ -97,47 +99,21 @@ def book_trek(trek_id):
 
         return redirect("/login")
 
-    trek = Trek.query.get_or_404(trek_id)
-
-    existing_booking = Booking.query.filter_by(
-        user_id=session["user_id"],
-        trek_id=trek.id
-    ).first()
-
-    if existing_booking:
-        flash("You have already booked this trek.")
-
-        return redirect(
-            url_for("trekker.trekker_dashboard")
-        )
-
-    if trek.status != "Open":
-        flash("Bookings are closed for this trek.")
-
-        return redirect(
-            url_for("trekker.trekker_dashboard")
-        )
-
-    if trek.available_slots <= 0:
-        flash("No slots available.")
-
-        return redirect(
-            url_for("trekker.trekker_dashboard")
-        )
-
-    booking = Booking(
-        user_id=session["user_id"],
-        trek_id=trek.id,
-        booking_date=date.today(),
-        status="BOOKED",
-        payment_status="PENDING"
+    result = SafeBookingProcessor.process_booking(
+        session["user_id"],
+        trek_id
     )
 
-    trek.available_slots -= 1
-    db.session.add(booking)
-    db.session.commit()
+    flash(result["message"])
 
-    flash("Trek booked successfully.")
+    if result["success"]:
+        BookingProducer.submit_job(
+            "booking_confirmation",
+            {
+                "user_id": session["user_id"],
+                "trek_id": trek_id
+            }
+        )
 
     return redirect(
         url_for("trekker.trekker_dashboard")
